@@ -6,6 +6,7 @@ public class Player1Move : MonoBehaviour
 {
     private Animator Anim;
     public float WalkSpeed;
+    private bool IsJumping = false;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,12 @@ public class Player1Move : MonoBehaviour
         //Jumping & Crouching
         if (Input.GetAxis("Vertical") > 0)
         {
-            Anim.SetTrigger("Jump");
+            if(IsJumping == false)
+            {
+                IsJumping = true;
+                Anim.SetTrigger("Jump");
+                StartCoroutine(JumpPause());
+            }
         }
         if (Input.GetAxis("Vertical") < 0)
         {
@@ -45,6 +51,12 @@ public class Player1Move : MonoBehaviour
         if (Input.GetAxis("Vertical") == 0)
         {
             Anim.SetBool("Crouch", false);
+        }
+
+        IEnumerator JumpPause()
+        {
+            yield return new WaitForSeconds(1.0f);
+            IsJumping = false;
         }
     }
 }
