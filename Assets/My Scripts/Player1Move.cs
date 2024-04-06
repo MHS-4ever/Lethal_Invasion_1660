@@ -7,6 +7,15 @@ public class Player1Move : MonoBehaviour
     private Animator Anim;
     public float WalkSpeed;
     private bool IsJumping = false;
+    private AnimatorStateInfo Player1Layer0;
+    private bool CanWalkRight = true;
+    private bool CanWalkLeft = true;
+    public GameObject Player1;
+    public GameObject Opponent;
+    private Vector3 OppPosition;
+    private bool FacingLeft = false;
+    private bool FacingRight = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,22 +26,68 @@ public class Player1Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Walking Forward & Backward
-        if(Input.GetAxis("Horizontal") >  0)
+        //Listen to the Animator
+        Player1Layer0 = Anim.GetCurrentAnimatorStateInfo(0);
+
+        //Cannot exit Screen
+        Vector3 ScreenBounds = Camera.main.WorldToScreenPoint(this.transform.position);
+
+        if(ScreenBounds.x > Screen.width - 200)
         {
-            Anim.SetBool("Forward", true);
-            transform.Translate(WalkSpeed, 0, 0);
+            CanWalkRight = false;
         }
-        if (Input.GetAxis("Horizontal") < 0)
+        if (ScreenBounds.x < 200)
         {
-            Anim.SetBool("Backward", true);
-            transform.Translate(-WalkSpeed, 0, 0);
+            CanWalkLeft = false;
+        }
+        else if (ScreenBounds.x > 200 && ScreenBounds.x < Screen.width - 200)
+        {
+            CanWalkRight = true;
+            CanWalkLeft = true;
+        }
+
+
+        //Get the Opponent's position
+        OppPosition = Opponent.transform.position;
+
+
+        //Facing left or right of the opponent
+        if(OppPosition.x > Player1.transform.position.x)
+        {
+            StartCoroutine(FaceLeft());
+        }
+        if (OppPosition.x < Player1.transform.position.x)
+        {
+            StartCoroutine(FaceRight());
+        }
+
+
+        //Walking Forward & Backward
+        if (Player1Layer0.IsTag("Motion"))
+        {
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                    if (CanWalkRight == true)
+                    {
+                        Anim.SetBool("Forward", true);
+                        transform.Translate(WalkSpeed, 0, 0);
+                    }   
+            }
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                    if(CanWalkLeft == true)
+                    {
+                        Anim.SetBool("Backward", true);
+                        transform.Translate(-WalkSpeed, 0, 0);
+                    }
+            }
         }
         if (Input.GetAxis("Horizontal") == 0)
         {
             Anim.SetBool("Forward", false);
             Anim.SetBool("Backward", false);
         }
+
 
         //Jumping & Crouching
         if (Input.GetAxis("Vertical") > 0)
@@ -57,6 +112,28 @@ public class Player1Move : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
             IsJumping = false;
+        }
+
+        IEnumerator FaceLeft ()
+        {
+            if(FacingLeft == true)
+            {
+                FacingLeft = false;
+                FacingRight = true;
+                yield return new WaitForSeconds(0.15f);
+                Player1.transform.Rotate(0, 180, 0);
+            }
+        }
+
+        IEnumerator FaceRight()
+        {
+            if (FacingRight == true)
+            {
+                FacingRight = false;
+                FacingLeft = true;
+                yield return new WaitForSeconds(0.15f);
+                Player1.transform.Rotate(0, -180, 0);
+            }
         }
     }
 }
