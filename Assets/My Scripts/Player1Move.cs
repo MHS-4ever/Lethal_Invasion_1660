@@ -122,6 +122,7 @@ public class Player1Move : MonoBehaviour
                 FacingRight = true;
                 yield return new WaitForSeconds(0.15f);
                 Player1.transform.Rotate(0, 180, 0);
+                Anim.SetLayerWeight(1, 0);
             }
         }
 
@@ -133,6 +134,7 @@ public class Player1Move : MonoBehaviour
                 FacingLeft = true;
                 yield return new WaitForSeconds(0.15f);
                 Player1.transform.Rotate(0, -180, 0);
+                Anim.SetLayerWeight(1, 0);
             }
         }
     }
