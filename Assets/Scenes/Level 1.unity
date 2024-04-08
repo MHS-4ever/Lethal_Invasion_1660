@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpSpeed: 1
   Player1: {fileID: 620681761}
+  PunchMoveAmt: 0.5
 --- !u!1 &99220301
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b639ab8d1ef841e4385e3f150a62b992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkSpeed: 0.09
+  WalkSpeed: 0.07
   Player1: {fileID: 82768128}
   Opponent: {fileID: 955018813}
 --- !u!54 &620681763
@@ -1606,7 +1607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e17b616730109146878fa3514cde113, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.247
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e17b616730109146878fa3514cde113, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1614,7 +1615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e17b616730109146878fa3514cde113, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.313
+      value: -7.365
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e17b616730109146878fa3514cde113, type: 3}
       propertyPath: m_LocalRotation.w
